@@ -1,18 +1,20 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Foodtruck } from '../interfaces/Foodtruck';
+import { HeadersService } from './headers.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FoodtruckService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private headersService: HeadersService) { }
 
   public getAll(page: number = 1): Observable<Foodtruck[]>
   {
-    return this.http.get<Foodtruck[]>(environment.baseApiUrl + 'foodtruck', {params: new HttpParams().set('page', page)});
+    return this.http.get<Foodtruck[]>(environment.baseApiUrl + 'foodtruck', {params: new HttpParams().set('page', page), headers: this.headersService.getHttpHeaders()});
   }
 
   public getOne(id:number): Observable<Foodtruck>
