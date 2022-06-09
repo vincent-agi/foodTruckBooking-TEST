@@ -1,4 +1,17 @@
 @import '../../styles.scss';
-.warning-button {
-  background-color: $button-warning-color;
+
+$big-button-container-size: 20px;
+
+.table {
+  padding-top: $big-button-container-size !important;
+}
+
+.big-button-container {
+  height: $big-button-container-size;
+  width: 100%;
+  padding-top: 65px;
+}
+
+.big-button {
+  width: 100%;
 }

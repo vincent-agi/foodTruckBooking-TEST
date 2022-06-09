@@ -120,9 +120,9 @@ class FoodTruck implements JsonSerializable
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    private function applyDateTime() {
+    private function applyDateTime(): void {
         $currentDate = new \DateTimeImmutable('now');
-        if($this->getCreatedAt() != null) {
+        if($this->createdAt != null) {
             $this->setUpdatedAt($currentDate);
         } else {
             $this->setCreatedAt($currentDate);
@@ -144,7 +144,17 @@ class FoodTruck implements JsonSerializable
         $status = false;
         try {
             foreach($data as $key => $value) {
-                $this->{$key} = $value;
+                switch($key)
+                {
+                    case "createdAt":
+                    case "updatedAt":
+                        $this->{$key} = new \DateTimeImmutable($value);
+                    break;
+                    case "bookings":
+                        break;
+                    default:
+                        $this->{$key} = $value;
+                }
             }
             $status = true;
         } catch(\Exception $ex) {

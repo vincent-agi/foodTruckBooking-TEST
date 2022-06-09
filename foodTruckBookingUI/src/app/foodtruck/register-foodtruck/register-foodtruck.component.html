@@ -1,1 +1,9 @@
-<p>register-foodtruck works!</p>
+<div class="padding-top-bottom">
+  <form [formGroup]="foodtruckForm">
+    <mat-label>Nom du Foodtruck</mat-label>
+    <mat-form-field>
+      <input matInput type="text" placeholder="My Super foodtruck" formControlName="name">
+    </mat-form-field>
+    <button [disabled]="foodtruckForm.invalid" (click)="submitFoodtruckForm()">Créer mon foodtruck</button>
+  </form>
+</div>

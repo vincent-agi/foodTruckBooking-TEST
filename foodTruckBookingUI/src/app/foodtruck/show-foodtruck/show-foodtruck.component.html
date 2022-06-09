@@ -1,1 +1,11 @@
-<p>show-foodtruck works!</p>
+<div *ngIf="foodtruckForm && foodtruck" class="padding-top-bottom">
+  <form [formGroup]="foodtruckForm">
+    <mat-label class="label">Nom du foodtruck</mat-label>
+    <mat-form-field>
+      <input matInput type="text" formControlName="name">
+    </mat-form-field>
+    <button class="info-button" mat-button [disabled]="foodtruckForm.invalid" (click)="updateFoodtruck()">Valider</button>
+  </form>
+  <app-booking [foodtruck]="foodtruck"></app-booking>
+  <app-make-booking [foodtruck]="foodtruck" (bookingAdded)="onBookingAdded($event)"></app-make-booking>
+</div>

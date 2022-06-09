@@ -40,16 +40,30 @@ class FoodTruckRepository extends ServiceEntityRepository
         }
     }
 
-    public function getAll($page = 1){
+    public function getAll($page = 1, $all = false){
         $pageSize = 15;
 		$firstResult = (($page - 1) * $pageSize);
-        $qb = $this->createQueryBuilder('f')
+        if(!$all){
+            $query = $this->createQueryBuilder('f')
             ->setFirstResult($firstResult)
             ->setMaxResults($pageSize)
-            ->orderBy('f.createdAt', 'DESC');
+            ->orderBy('f.createdAt', 'DESC')
+            ->getQuery()
+            ->execute();
+        } else {
+            $query = $this->createQueryBuilder('f')
+            ->orderBy('f.createdAt', 'DESC')
+            ->getQuery()
+            ->execute();
+        }
 
-        $query = $qb->getQuery();
+        return $query;
+    }
 
-        return $query->execute();
+    public function countAll(){
+        return $this->createQueryBuilder('f')
+            ->select('count(f)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

@@ -20,8 +20,17 @@ class FoodTruckController extends AbstractController
     public function listOfFoodTrucks(FoodTruckRepository $foodTruckRepository, Request $request): JsonResponse
     {
         $page = $request->query->get('page', 1);
-        $foodTrucks = $foodTruckRepository->getAll($page);
+        $all = $request->query->get('all', false);
+        $foodTrucks = null;
+        $foodTrucks = $foodTruckRepository->getAll($page, $all);
         return $this->json($foodTrucks, 200);
+    }
+
+    #[Route('/count', name:'count', methods:['GET'])]
+    public function countFoodtrucks(FoodTruckRepository $foodTruckRepository): JsonResponse
+    {
+        $countFoodtrucks = $foodTruckRepository->countAll();
+        return $this->json($countFoodtrucks, 200);
     }
 
     #[Route('/{id}', name: 'show', methods:["GET"])]
@@ -89,7 +98,7 @@ class FoodTruckController extends AbstractController
         $manager->persist($foodtruck);
         $manager->flush();
 
-        return $this->json([$foodtruck, "message"=>"Votre foodtruck à bien ete ajouté"], 201);
+        return $this->json($foodtruck, 201);
     }
 
     #[Route('/{id}', name:'delete', methods:["DELETE"])]

@@ -10,8 +10,14 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { MatCommonModule } from '@angular/material/core';
-
+import { MatCommonModule, MatNativeDateModule } from '@angular/material/core';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
+import { BookingModule } from './booking.module';
+import { BookingComponent } from '../shared/booking/booking.component';
+import { ShowBookingComponent } from '../shared/booking/show-booking/show-booking.component';
+import { MakeBookingComponent } from '../shared/booking/make-booking/make-booking.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const materialSharedModule = [
   MatToolbarModule,
@@ -21,22 +27,34 @@ const materialSharedModule = [
   MatSelectModule,
   MatTableModule,
   MatSnackBarModule,
-  MatCommonModule
+  MatCommonModule,
+  MatPaginatorModule,
+  MatNativeDateModule
 ]
 
 
 @NgModule({
   declarations: [
     TopbarComponent,
-    FooterComponent
+    FooterComponent,
+    ShowBookingComponent,
+    BookingComponent,
+    MakeBookingComponent
   ],
   imports: [
     RouterModule,
+    ReactiveFormsModule,
+    CommonModule,
     HttpClientModule,
+    BookingModule,
+    ...materialSharedModule
   ],
   exports: [
     TopbarComponent,
     FooterComponent,
+    BookingComponent,
+    MakeBookingComponent,
+    ReactiveFormsModule,
     ...materialSharedModule
   ]
 })

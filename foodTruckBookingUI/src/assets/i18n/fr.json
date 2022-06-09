@@ -1,0 +1,29 @@
+{
+  "home": {
+
+  },
+  "foodtruck": {
+    "success": {
+      "addedWithSuccess": "Votre foodtruck a été ajouté avec succès",
+      "updatedWithSuccess": "Votre foodtruck à été mis jour avec succès",
+      "deletedWithSuccess": "Le foodtruck à bien été supprimer"
+    },
+    "fail": {
+      "addedWithFailed": "Une erreur s'est produite durant l'ajout de votre foodtruck",
+      "updatedWithFailed": "Une erreur s'est produite durant la mise jour de votre foodtruck",
+      "deletedWithFailed": "Une erreur s'est produite durant la suppression du foodtruck"
+    }
+  },
+  "booking": {
+    "success": {
+      "addedWithSuccess": "Votre réservation a été ajouté avec succès",
+      "updatedWithSuccess": "Votre réservation à été mis jour avec succès",
+      "deletedWithSuccess": "Le réservation à bien été supprimer"
+    },
+    "fail": {
+      "addedWithFailed": "Une erreur s'est produite durant l'ajout de votre réservation",
+      "updatedWithFailed": "Une erreur s'est produite durant la mise jour de votre réservation",
+      "deletedWithFailed": "Une erreur s'est produite durant la suppression du réservation"
+    }
+  }
+}

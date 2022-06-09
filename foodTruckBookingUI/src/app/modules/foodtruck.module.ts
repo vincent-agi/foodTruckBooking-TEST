@@ -7,7 +7,6 @@ import { FoodtruckRoutingModule } from '../routing/foodtruck-rooting.module';
 import { SharedModule } from './shared.module';
 
 
-
 @NgModule({
   declarations: [
     RegisterFoodtruckComponent,

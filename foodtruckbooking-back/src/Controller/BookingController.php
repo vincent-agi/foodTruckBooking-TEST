@@ -21,7 +21,14 @@ class BookingController extends AbstractController
     {
         $page = $request->query->get('page', 1);
         $bookings = $bookingRepository->getAll($page);
-        return $this->json(["bookings"=>$bookings, "count"=>count($bookings)], 200);
+        return $this->json($bookings, 200);
+    }
+
+    #[Route('/count', name: 'count', methods:["GET"])]
+    public function countBooking(BookingRepository $bookingRepository): JsonResponse
+    {
+        $countBooking = $bookingRepository->countAll();
+        return $this->json($countBooking, 200);
     }
 
     #[Route('/{id}', name: 'show', methods:["GET"])]
@@ -31,22 +38,26 @@ class BookingController extends AbstractController
         if($booking == null) {
             return $this->json(["message"=>"Réservation introuvable"], 404);
         }
-        return $this->json(["booking"=>$booking], 200);
+        return $this->json($booking, 200);
     }
 
     #[Route('/new', name: 'new', methods:["POST"])]
-    public function newBooking(EntityManagerInterface $manager, Request $request, ValidatorInterface $validator, FoodTruckRepository $foodtruckRepository): JsonResponse
+    public function newBooking(EntityManagerInterface $manager, Request $request, ValidatorInterface $validator, FoodTruckRepository $foodtruckRepository, BookingRepository $bookingRepository): JsonResponse
     {
         $messages= null ;
         $data = json_decode($request->getContent(), true);
+        if(!$bookingRepository->checkPlaceAvailable($data["bookingAt"]))
+        {
+            return $this->json("Plus de place disponible ce jour", 400);
+        }
         try {
             $booking = new Booking($data);
-            $foodtruck = $foodtruckRepository->find($data["foodtruck"]);
+            $foodtruck = $foodtruckRepository->find($data["foodtruck"]["id"]);
+            $booking->setFoodTruck($foodtruck);
+            $errors = $validator->validate($booking);
             if($foodtruck == null) {
                 return $this->json(["message"=>"Le foodtruck associé à la réservation n'existe pas"], 404);
             }
-            $booking->setFoodTruck($foodtruck);
-            $errors = $validator->validate($booking);
             if(count($errors) > 0){
                 foreach($errors as $error) {
                     $messages[] = "property : " . $error->getPropertyPath() . ". error : " . $error->getMessage();
@@ -59,7 +70,7 @@ class BookingController extends AbstractController
         $manager->persist($booking);
         $manager->flush();
 
-        return $this->json(["booking"=>$booking, "message"=>"Votre réservation à bien ete ajouté"], 201);
+        return $this->json($booking, 201);
     }
     
     #[Route('/{id}', name: 'update', methods:["PUT", "PATCH"])]
@@ -91,7 +102,7 @@ class BookingController extends AbstractController
         $manager->persist($booking);
         $manager->flush();
 
-        return $this->json(["booking"=>$booking, "message"=>"Votre réservation à bien ete ajouté"], 201);
+        return $this->json($booking, 201);
     }
 
     #[Route('/{id}', name:'delete', methods:["DELETE"])]

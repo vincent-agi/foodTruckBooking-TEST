@@ -1,0 +1,19 @@
+<div *ngIf="bookingForm && tomorrow" class="padding-top">
+  <form [formGroup]="bookingForm">
+    <mat-label>Sélectionner Votre foodtruck</mat-label>
+    <mat-form-field>
+      <mat-select (selectionChange)="selectionFoodtruck($event)" formControlName="foodtruckname">
+        <mat-option *ngFor="let foodtruck of foodtrucks" [value]="foodtruck">{{foodtruck.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-label>Selectionner la date de réservation de l'emplacement</mat-label>
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input formControlName="bookingAt" [matDatepicker]="picker" [matDatepickerFilter]="filteredDates" matInput>
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-button [disabled]="bookingForm.invalid" (click)="makeBooking()">Faire la réservation</button>
+  </form>
+</div>

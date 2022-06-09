@@ -6,6 +6,7 @@ use App\Entity\Booking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * @extends ServiceEntityRepository<Booking>
@@ -44,13 +45,47 @@ class BookingRepository extends ServiceEntityRepository
     public function getAll($page = 1){
         $pageSize = 15;
 		$firstResult = (($page - 1) * $pageSize);
-        $qb = $this->createQueryBuilder('b')
+        return $this->createQueryBuilder('b')
             ->setFirstResult($firstResult)
             ->setMaxResults($pageSize)
-            ->orderBy('b.createdAt', 'DESC');
+            ->orderBy('b.createdAt', 'DESC')
+            ->getQuery()
+            ->execute();
+    }
 
-        $query = $qb->getQuery();
+    public function countAll(){
+        return $this->createQueryBuilder('b')
+            ->select('count(b)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
-        return $query->execute();
+    public function checkPlaceAvailable($date): bool{
+        $limit = null;
+        $outPlace = true;
+        $day = date('l', strtotime($date));
+        switch($day) {
+            case "Monday":
+            case "Tuesday":
+            case "Wednesday":
+            case "Thursday":
+                $limit = 7;
+                break;
+            case "Friday":
+                $limit = 6;
+                break;
+            default:
+                $limit = 7;
+        }
+        $countBookingByDate = $this->createQueryBuilder('b')
+        ->select('count(b)')
+        ->where('b.bookingAt = :date')
+        ->setParameter('date', $date)
+        ->getQuery()
+        ->getSingleScalarResult();
+        if($countBookingByDate >= $limit){
+            $outPlace = false;
+        }
+        return $outPlace;
     }
 }

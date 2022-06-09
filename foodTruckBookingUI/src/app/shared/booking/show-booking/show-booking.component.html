@@ -1,0 +1,21 @@
+<div class="padding-top-bottom">
+  <form *ngIf="booking">
+    <mat-form-field>
+      <mat-label>Id</mat-label>
+      <input matInput type="text" value="{{booking.id}}" disabled/>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Created at</mat-label>
+      <input matInput type="text" value="{{booking.createdAt| date}}" disabled/>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Updated at</mat-label>
+      <input matInput type="text" value="{{booking.updatedAt| date}}" disabled/>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Booking at</mat-label>
+      <input matInput type="text" value="{{booking.bookingAt| date}}" disabled/>
+    </mat-form-field>
+  </form>
+  <button class="warning-button" (click)="delete(booking)">Delete</button>
+</div>
