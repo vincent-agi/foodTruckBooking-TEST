@@ -84,3 +84,8 @@ Dans ce cas précis nous n'avons pas recours a une authentification, donc pas de
 Evidemment dans le cas d'un accès avec plusieurs utilisateurs il serait presque vital de mettre en place un système backend avec des Voters afin de vérifier les droits d'accès.
 Toujours dans un cadre de sécurité nous aurions pu mettre en place des Guards  en front sur certaines routes si besoin.
 Bien sur comme il n'y a pas a proprement parlé d'utilisateur enregistré sur le site pas besoin de chiffrer les données mais il faut bien prendre en compte qu'il s'agit d'une loi relative au RGPD (cf : le site de CNIL)
+
+# Détail important
+J'ai utilisé le package @angular/pwa@13.* afin de rendre la partie frontale en tant que PWA. Pour des raisons de sécurité, la PWA est désactivée si la connexion n'est en HTTPS avec un certificat SSL valide.
+
+Enjoy use !
