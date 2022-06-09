@@ -21,7 +21,7 @@ class FoodTruckController extends AbstractController
     {
         $page = $request->query->get('page', 1);
         $foodTrucks = $foodTruckRepository->getAll($page);
-        return $this->json(["foodtrucks"=>$foodTrucks, "count"=>count($foodTrucks)], 200);
+        return $this->json($foodTrucks, 200);
     }
 
     #[Route('/{id}', name: 'show', methods:["GET"])]
@@ -31,7 +31,7 @@ class FoodTruckController extends AbstractController
         if($foodtruck == null) {
             return $this->json(["message"=>"foodtruck introuvable"], 404);
         }
-        return $this->json(["foodtruck"=>$foodtruck], 200);
+        return $this->json($foodtruck, 200);
     }
 
     #[Route('/new', name: 'new', methods:["POST"])]
@@ -62,7 +62,7 @@ class FoodTruckController extends AbstractController
         $manager->persist($foodtruck);
         $manager->flush();
 
-        return $this->json(["foodtruck"=>$foodtruck, "message"=>"Votre foodtruck à bien ete ajouté"], 201);
+        return $this->json([$foodtruck, "message"=>"Votre foodtruck à bien ete ajouté"], 201);
     }
     
     #[Route('/{id}', name: 'update', methods:["PUT", "PATCH"])]
@@ -89,7 +89,7 @@ class FoodTruckController extends AbstractController
         $manager->persist($foodtruck);
         $manager->flush();
 
-        return $this->json(["foodtruck"=>$foodtruck, "message"=>"Votre foodtruck à bien ete ajouté"], 201);
+        return $this->json([$foodtruck, "message"=>"Votre foodtruck à bien ete ajouté"], 201);
     }
 
     #[Route('/{id}', name:'delete', methods:["DELETE"])]

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
 import { Foodtruck } from '../interfaces/Foodtruck';
 import { FoodtruckService } from '../services/foodtruck.service';
 
@@ -9,15 +11,21 @@ import { FoodtruckService } from '../services/foodtruck.service';
 })
 export class FoodtruckComponent implements OnInit {
 
-  public foodtrucks: Foodtruck[] = [];
+  public dataSource: MatTableDataSource<Foodtruck> = new MatTableDataSource();
+  public foodtrucksList: Foodtruck[] = []
+  public foodtruck$!: Observable<Foodtruck[]>;
+  public displayedColumns: string[] = ['name', 'createdAt', 'actions'];
 
   constructor(private foodtruckService: FoodtruckService) { }
 
   ngOnInit(): void {
-    console.log('foodtruck');
+    this.getAllFoodtrucks()
+  }
 
-    this.foodtruckService.getAll().subscribe((data:any)=> {
-      console.log(data);
+  public getAllFoodtrucks() {
+    this.foodtruck$ = this.foodtruckService.getAll().subscribe((data:Foodtruck[])=> {
+      this.foodtrucksList = data;
+      this.dataSource = new MatTableDataSource(this.foodtrucksList);
     })
   }
 

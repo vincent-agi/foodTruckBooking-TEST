@@ -16,7 +16,8 @@ import { SharedModule } from './shared.module';
   ],
   imports: [
     CommonModule,
-    FoodtruckRoutingModule
+    FoodtruckRoutingModule,
+    SharedModule
   ]
 })
 export class FoodtruckModule { }

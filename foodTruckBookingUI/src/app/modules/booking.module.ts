@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ShowBookingComponent } from '../booking/show-booking/show-booking.component';
 import { BookingComponent } from '../booking/booking.component';
 import { BookingRoutingModule } from '../routing/booking-routing.module';
+import { SharedModule } from './shared.module';
 
 
 
@@ -13,7 +14,8 @@ import { BookingRoutingModule } from '../routing/booking-routing.module';
   ],
   imports: [
     CommonModule,
-    BookingRoutingModule
+    BookingRoutingModule,
+    SharedModule
   ]
 })
 export class BookingModule { }
